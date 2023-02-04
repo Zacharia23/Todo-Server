@@ -3,4 +3,6 @@ const User = require('./user')
 const Todo = require('./todo')
 const TodoItem = require('./todoItem')
 
-export {Role, User, Todo, TodoItem}
+const UserTodo = require('./userTodos')
+
+export {Role, User, Todo, TodoItem, UserTodo}

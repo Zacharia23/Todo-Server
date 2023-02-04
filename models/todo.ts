@@ -5,8 +5,8 @@ const Todo = mongoose.model(
         title: String,
         priority: String,
         description: String,
-        date: Date,
-        time: Date,
+        date: String,
+        time: String,
         items: [
             {type: mongoose.Schema.Types.ObjectId, ref: "TodoItem"}
         ]

@@ -6,6 +6,13 @@ import {Request, Response, NextFunction} from "express";
 const config =  require("../config/auth-config");
 const formatResponse = require('../utils/standard_response');
 
+interface ISessionDef {
+    token: string,
+}
+interface IGetUserAuthInfoRequest extends Request {
+    userId: string,
+    session?: ISessionDef | null,
+}
 const signup = (req:Request, res:Response) => {
     const user = new User({
         name: req.body.name,
@@ -54,7 +61,7 @@ const signup = (req:Request, res:Response) => {
     })
 }
 
-const signin = (req:Request, res:Response) => {
+const signin = (req:IGetUserAuthInfoRequest, res:Response) => {
     User.findOne({
         username: req.body.username,
     }).populate("roles", "-__v")
@@ -85,7 +92,7 @@ const signin = (req:Request, res:Response) => {
                 authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
             }
 
-            req.session.token = token;
+            req.session!.token = token;
 
             const userData = ({id: user._id, username: user.username, email: user.email, role: authorities, token: token})
 
@@ -93,12 +100,13 @@ const signin = (req:Request, res:Response) => {
         })
 }
 
-const signout = async (req:Request, res:Response) => {
+const signout = async (req:IGetUserAuthInfoRequest, res:Response, next:NextFunction) => {
     try{
         req.session = null;
         return res.status(200).json(formatResponse(res.statusCode, 'Successfully Signed out'));
     } catch (error) {
-        this.next(error);
+        // @ts-ignore
+        this.next(error)
     }
 }
 
