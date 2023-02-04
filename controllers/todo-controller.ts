@@ -51,8 +51,13 @@ const saveUserTodo = (todo: any, userId:any) => {
 };
 
 const getusertodos = (req:Request, res:Response) => {
-    UserTodo.find()
-        .populate("todo", "-__v")
+    UserTodo.find({user: '63dcf951b6eed71c61359672'})
+        .populate({
+            path: 'todo',
+            populate: {
+                path: 'items'
+            }
+        })
         .exec((error:any, userTodo:any) => {
             if(error) {
                 res.status(500).json(formatResponse(res.statusCode, error));
