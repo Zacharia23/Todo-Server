@@ -55,7 +55,8 @@ const saveUserTodo = (todo: any, userId: any, ownership: string) => {
 };
 
 const getusertodos = (req:Request, res:Response) => {
-    UserTodo.find({user: '63dfe648092876f905e14337'})
+    const userid = req.body.userid;
+    UserTodo.find({user: userid})
         .populate({
             path: 'todo',
             populate: {
