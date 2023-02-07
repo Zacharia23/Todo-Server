@@ -1,6 +1,7 @@
 import express, {Express, NextFunction, Request, Response} from "express";
 import dotenv from 'dotenv';
 const cors = require('cors')
+const helmet = require("helmet")
 const cookieSession = require('cookie-session')
 dotenv.config();
 
@@ -30,6 +31,12 @@ app.use(
 
 app.use(loggerMiddleware)
 app.use(express.json())
+
+app.use(helmet())
+
+app.use(cors({
+    origin: '*'
+}))
 
 app.use(function(req: Request, res: Response, next:NextFunction) {
     res.header(

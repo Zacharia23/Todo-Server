@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const logger = require('../services/loggerService')
-const mongo_url = process.env.MONGO_ATLAS;
+const mongo_url = process.env.MONGO_LOCAL;
 import {Role, User, Todo, TodoItem} from '../models'
 
 mongoose.set("strictQuery", false)
